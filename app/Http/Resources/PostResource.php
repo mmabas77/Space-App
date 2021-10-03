@@ -19,6 +19,8 @@ class PostResource extends JsonResource
             'social_links' => $this->social_link ?? [],
             'slug' => $this->slug ?? '',
             'link' => route('post.view', $this->id),
+            'date' => $this->created_at->format('d-m-Y'),
+            'time' => $this->created_at->format('h:i:s'),
         ];
     }
 
