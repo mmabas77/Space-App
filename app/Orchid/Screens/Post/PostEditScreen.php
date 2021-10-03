@@ -52,13 +52,12 @@ class PostEditScreen extends Screen
 
     public function query(Post $post): array
     {
-        $this->exists=$post->exists;
-        if ($this->exists)
-        {
-            $this->name='Edit Post';
+        $this->exists = $post->exists;
+        if ($this->exists) {
+            $this->name = 'Edit Post';
         }
         return [
-            'post'=>$post
+            'post' => $post
         ];
     }
 
@@ -87,7 +86,6 @@ class PostEditScreen extends Screen
                 ->canSee($this->exists),
 
 
-
         ];
     }
 
@@ -96,34 +94,33 @@ class PostEditScreen extends Screen
     {
         return [
             Layout::rows([
-                Input::make('post.title')
-                    ->title('Name')
-                    ->required()
-                    ->placeholder('Post title')
-                    ->help('Specify The Post title.'),
+                    Input::make('post.title')
+                        ->title('Name')
+                        ->required()
+                        ->placeholder('Post title')
+                        ->help('Specify The Post title.'),
 
-                Relation::make('post.categories.')
-                    ->fromModel(Category::class,'name')
-                    ->multiple()
-                    ->title('Related Categories'),
+                    Relation::make('post.categories.')
+                        ->fromModel(Category::class, 'name')
+                        ->multiple()
+                        ->title('Related Categories'),
 
-                TextArea::make('post.description')
-                    ->title('Description')
-                    ->required()
-                    ->rows(6)
-                    ->placeholder('Post description')
-                    ->help('Specify The Post description.'),
+                    Quill::make('post.description')
+                        ->title('Description')
+                        ->required()
+                        ->placeholder('Post description')
+                        ->help('Specify The Post description.'),
 
-                Picture::make('post.image')
-                    ->title('Cover')
-                    ->required()
-                    ->width(800)
-                    ->height(800)
-                    ->horizontal()
-                    ->placeholder('Post image')
-                    ->help('Specify The Post description.'),
+                    Picture::make('post.image')
+                        ->title('Cover')
+                        ->required()
+                        ->width(800)
+                        ->height(800)
+                        ->horizontal()
+                        ->placeholder('Post image')
+                        ->help('Specify The Post description.'),
 
-            ]
+                ]
 
 
             )
@@ -131,12 +128,13 @@ class PostEditScreen extends Screen
 
 
     }
+
     public function createOrUpdate(Post $post, Request $request): RedirectResponse
     {
         $request->validate([
-            'post.title'=>'required|string',
-            'post.description'=>'required|string',
-            'post.image'=>'nullable',
+            'post.title' => 'required|string',
+            'post.description' => 'required|string',
+            'post.image' => 'nullable',
             'post.categories.' => 'nullable',
 
         ]);
@@ -161,8 +159,7 @@ class PostEditScreen extends Screen
     {
         $post->delete()
             ? Alert::info('You have successfully deleted the post.')
-            : Alert::warning('An error has occurred')
-        ;
+            : Alert::warning('An error has occurred');
 
         return redirect()->route('platform.posts.list');
     }
