@@ -19,26 +19,35 @@ class DatabaseSeeder extends Seeder
         $this->seedUser();
         $this->seedCategoryAndPosts();
     }
+
     private function seedUser()
     {
-        $permissions=["platform.systems.roles"=>true,
-            "platform.systems.users"=>true,
-            "platform.systems.attachment"=>true,
-            "platform.index"=>true,
-            "platform.systems.index"=>true];
+        $permissions = ["platform.systems.roles" => true,
+            "platform.systems.users" => true,
+            "platform.systems.attachment" => true,
+            "platform.index" => true,
+            "platform.systems.index" => true];
 
         User::create([
-            'name'=>'Eyad Hamza',
-            'email'=>'eyadhamza0@outlook.com',
-            'password'=>bcrypt('password'),
-            'permissions'=>$permissions
+            'name' => 'Admin',
+            'email' => 'admin@admin.com',
+            'password' => bcrypt('password'),
+            'permissions' => $permissions
 
         ]);
     }
+
     private function seedCategoryAndPosts()
     {
         Category::factory()
             ->has(Post::factory()->count(10))
-            ->create();
+            ->create([
+                'name' => 'post'
+            ]);
+        Category::factory()
+            ->has(Post::factory()->count(10))
+            ->create([
+                'name' => 'prevention'
+            ]);
     }
 }
