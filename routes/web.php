@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/post/{id}', function ($id) {
+    $post = \App\Models\Post::findOrFail($id);
+    return view('post', compact('post'));
+})->name('post.view');

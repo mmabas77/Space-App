@@ -10,13 +10,15 @@ class PostResource extends JsonResource
     public function toArray($request): array
     {
         return [
+            'post_id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'image' => $this->imag ?? '',
+            'image' => $this->image ?? '',
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),
             'user_id' => $this->user->id,
             'social_links' => $this->social_link ?? [],
-            'slug' => $this->slug ?? ''
+            'slug' => $this->slug ?? '',
+            'link' => route('post.view', $this->id),
         ];
     }
 

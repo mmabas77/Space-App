@@ -12,10 +12,19 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = PostResource::collection(Post::all());
+
+        $query = Post::query();
+        if (\request()->has('category')) {
+            $query->whereRelation('categories',
+                'name',
+                '=',
+                \request()->get('category')
+            );
+        }
+        $posts = PostResource::collection($query->get());
 
         return $posts->additional([
-            'status' => 'success' ,
+            'status' => 'success',
             'msg' => '',
             'code' => 200
         ]);
@@ -28,7 +37,7 @@ class PostController extends Controller
 
     public function show($id)
     {
-        if (Post::find($id) == null){
+        if (Post::find($id) == null) {
             return [
                 'data' => [],
                 'status' => 'failure',
@@ -38,10 +47,10 @@ class PostController extends Controller
         }
         return (new PostResource(Post::with('categories')->find($id)))
             ->additional([
-            'status' => 'success',
-            'msg' => '',
-            'code' => 200
-        ]);
+                'status' => 'success',
+                'msg' => '',
+                'code' => 200
+            ]);
     }
 
     public function update(Request $request, Post $post)
